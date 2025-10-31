@@ -4,7 +4,8 @@ from pyspark.sql.window import Window
 
 spark = SparkSession.builder.appName("StockProcessing").getOrCreate()
 
-df = spark.read.option("header", "true").csv("../data/nifty50_long.csv")
+df = spark.read.option("header", "true").csv("data/nifty50_long.csv")
+
 df = df.withColumn("Close", col("Close").cast("double"))
 df = df.withColumn("year", year(col("DATE")))
 df = df.withColumn("month", month(col("DATE")))
@@ -15,6 +16,6 @@ df = df.withColumn("daily_return", (col("Close") - col("prev_close")) / col("pre
 df = df.na.drop(subset=["daily_return"])
 df = df.select("Symbol", "DATE", "year", "month", "Close", "daily_return")
 
-df.coalesce(1).write.mode("overwrite").option("header", "true").csv("../output/daily_summary")
+df.coalesce(1).write.mode("overwrite").option("header", "true").csv("output/daily_summary")
 
 spark.stop()

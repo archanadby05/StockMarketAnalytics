@@ -5,4 +5,5 @@ spark_jobs/__pycache__/
 *.pyo
 *.pyd
 venv/
+venv3.10/
 output/
